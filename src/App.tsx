@@ -4,16 +4,12 @@ export default function App() {
   const [nome, setNome] = useState<string>("")
   const [preco, setPreco] = useState<number>(0)
   const [info, setInfo] = useState<any>([])
-  const [resultado, setResultado] = useState<any>("")
 
   function handleSubmit() {
-    if (nome === "") return
+    if (nome === "" || preco === 0) return
     setInfo((currentInfo: any) => {
-      return [{ nome, preco, id: crypto.randomUUID() }, ...currentInfo]
+      return [...currentInfo, { nome, preco, id: crypto.randomUUID() }]
     })
-    setResultado(info[0].nome)
-    console.log(nome)
-    console.log(info)
   }
 
   return (
@@ -38,9 +34,11 @@ export default function App() {
           Inserir
         </button>
       </form>
-      {info && (
+
+      {info.length > 0 && (
         <>
-          <h4>{resultado}</h4>
+          <h4>Nome: {info.slice(-1)[0].nome}</h4>
+          <h4>Preço: {info.slice(-1)[0].preco}</h4>
         </>
       )}
     </>
